@@ -1,0 +1,32 @@
+// Define the pins
+const int tempSensorPin = A0; // Analog pin for temperature sensor
+const int ledPin = 13;        // LED pin
+
+void setup() {
+  pinMode(tempSensorPin, INPUT);
+  pinMode(ledPin, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  // Read the temperature sensor
+  int sensorValue = analogRead(tempSensorPin);
+  float voltage = sensorValue * (5.0 / 1023.0); // Convert to voltage
+  float temperatureC = (voltage - 0.5) * 100.0; // Convert voltage to temperature
+  
+  // Print the temperature to Serial Monitor
+  Serial.print("Temperature: ");
+  Serial.print(temperatureC);
+  Serial.println(" C");
+
+  // Act based on temperature
+  if (temperatureC > 2) { // Example threshold
+    digitalWrite(ledPin, HIGH); // Turn on LED if temperature is above 2°C
+    Serial.println("Temperature above 2°C! LED ON");
+  } else {
+    digitalWrite(ledPin, LOW);  // Turn off LED otherwise
+    Serial.println("Temperature below 2°C. LED OFF");
+  }
+
+  delay(1000); // Wait for a second before repeating
+}
